@@ -49,7 +49,7 @@ namespace ShadowScannerService.Model.API_Jotti
                 }
                 catch (Exception ex)
                 {
-                    WriteToFile(ex.Message + " - "+ ex.StackTrace);
+                    WriteToFile(ex.Message + " - " + ex.StackTrace);
                     throw;
                 }
 
@@ -96,16 +96,15 @@ namespace ShadowScannerService.Model.API_Jotti
 
                     if (r.MostRecentScanJob?.ScannersDetected > 0)
                     {
-                        string[] q = null;
-                        int i = 0;
+                        List<string> q = new List<string>();
                         foreach (ScannerResult scannerResult in r.MostRecentScanJob.ScannerResults)
                         {
-                            if (scannerResult.MalwareName != null)
+                            if (scannerResult.MalwareName != "")
                             {
-                                q[i] = $"[{scannerResult.ScannerName}:{scannerResult.MalwareName}]";
+                                q.Add($"[{scannerResult.ScannerName}:{scannerResult.MalwareName}]");
                             }
                         }
-                        jotti.MalwareName = string.Join(",", q);
+                        jotti.MalwareName = string.Join(",", q.ToArray());
                     }
 
                 }
